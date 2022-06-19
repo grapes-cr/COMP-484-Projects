@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<title>Lab 2: Calculator</title>
+    <style>   	
+	
+        div.visible 	{ display: block; }
+        div.invisible 	{ display: none; }
+        textarea { resize: none; }
+	input[type=button] { width: 30px; height: 30px; }
+	table { background-color: #a79aff; }
+	p { color: blue; }
+	
+#outerDiv{
+	background-color: #aff8db;
+}
+    </style>
+</head>
+
+<script>
+var wordcount = 0;
+
+function click(){
+	var fname = document.getElementById("fname").value;
+        var lname = document.getElementById("lname").value;
+	var bio = document.getElementById("bio").value;
+	var result = document.getElementById("result").value;
+	var fnameValid = 0;
+	var lnameValid = 0;
+	var nonLetterFN = false;
+	var nonLetterLN = false;
+	var capFN = false;
+	var capLN = false;
+	var firstCharFN = fname.charCodeAt(0);
+        var firstCharLN = lname.charCodeAt(0);
+	var bioEmpty = false;
+	var print = document.getElementById("a");
+	print.innerHTML = "";
+
+	if (fname.length <= 0){
+		print.innerHTML += "<strong>Invalid First Name:</strong> Cannot be <strong>blank.</strong><br>"; 
+	}
+	
+	if (lname.length <= 0){
+		print.innerHTML += "<strong>Invalid Last Name:</strong> Cannot be <strong>blank.</strong><br>"; 
+	}
+	
+	//Check if FN capitalized.
+	if (firstCharFN >= 65 && firstCharFN <= 90) {
+		fnameValid += 1;
+		capFN = true;
+	}
+
+	//Check if LN capitalized.
+	if (firstCharLN >= 65 && firstCharLN <= 90) {
+		lnameValid += 1;
+		capLN = true;
+	}
+
+	//Check if FN contains only letters.
+	for (var i = 1; i < fname.length; i++) {
+            var currentCharCode = fname.charCodeAt(i);
+            if ((currentCharCode >= 65 && currentCharCode <= 90) || (currentCharCode >= 97 && currentCharCode <= 122)) {
+                fnameValid++;
+            } else if ((currentCharCode >= 1 && currentCharCode <= 89) || (currentCharCode >= 91 && currentCharCode <= 96) || (currentCharCode >= 97 && currentCharCode <= 127)) {
+                nonLetterFN = true;
+	    }
+        }
+
+	//Check if LN contains only letters.
+	for (var i = 1; i < lname.length; i++) {
+            var currentCharCode = lname.charCodeAt(i);
+            if ((currentCharCode >= 65 && currentCharCode <= 90) || (currentCharCode >= 97 && currentCharCode <= 122)) {
+                lnameValid++;
+            } else if ((currentCharCode >= 1 && currentCharCode <= 89) || (currentCharCode >= 91 && currentCharCode <= 96) || (currentCharCode >= 97 && currentCharCode <= 127)) {
+                nonLetterLN = true;
+	    }
+        }
+
+	//Print error messages for FN and LN
+	
+		if (!capFN){
+			print.innerHTML += "<strong>Invalid First Name:</strong> Must be <strong>capitalized.</strong><br>";
+		}
+		if (nonLetterFN){
+			print.innerHTML += "<strong>Invalid First Name:</strong> Must only contain <strong>letters.</strong><br>";
+		}
+	
+		if (!capLN){
+			print.innerHTML += "<strong>Invalid Last Name:</strong> Must be <strong>capitalized.</strong><br>";
+		}
+		if (nonLetterLN){
+			print.innerHTML += "<strong>Invalid Last Name:</strong> Must only contain <strong>letters.</strong><br>";
+		}
+	
+
+	//Check if ID is valid. 
+        var strID = document.getElementById("id").value;
+        var allNums = 0;
+        var lengthNine = false;
+
+        //Check if ID is exactly 9 nums.
+        if (strID.length == 9) {
+        	lengthNine = true;   
+        } else {
+		print.innerHTML += "<strong>Invalid ID:</strong> Must only be <strong>nine </strong>numbers.<br>";
+	}
+	//Check if the current char is a number.
+	for (var i = 0; i < strID.length; i++) {
+                var currentCharID = strID.charAt(i);
+                if ((currentCharID >= '0' && currentCharID <= '9')) {
+                    allNums++;
+                }
+            }
+	if (allNums != strID.length){
+		print.innerHTML += "<strong>Invalid ID:</strong> Must only contain <strong>numbers.</strong> (No special characters or letters.)<br>";
+	}
+
+	if (bio.length == 0){
+		bioEmpty = true;
+		print.innerHTML += "<strong>Invalid Biography:</strong> Cannot be <strong>blank.</strong><br>"
+	}
+	if (!bioEmpty && lengthNine && (allNums == strID.length) && (lnameValid == lname.length) && capLN && !nonLetterLN && (fnameValid == fname.length) && capFN && !nonLetterFN){
+		document.getElementById('outerDiv').style.backgroundColor = "#aff8db";
+		if (hoursWorked.innerHTML == "0" || hoursWorked.innerHTML == ""){
+			alert("Form Submitted! \n\nFirst Name: " + fname + "\nLast Name: " + lname + "\nID: " + strID + "\nBiography: " + bio + "\nCalculator Entry: " + result);
+		} else {
+			alert("Form Submitted! \n\nFirst Name: " + fname + "\nLast Name: " + lname + "\nID: " + strID + "\nBiography: " + bio + "\nCalculator Entry: " + result + "\nHours Worked This Week: " + hoursWorked.innerHTML);
+		}	
+	} else {
+		document.getElementById('outerDiv').style.backgroundColor = "#afcbff";
+	}
+	
+}
+
+function save(){
+	//Check if the result is a number.
+        var allNums = 0;
+        var result = document.getElementById("result").value;
+	document.getElementById("a").innerHTML = "";
+        for (var i = 0; i < result.length; i++) {
+                var currentCharID = result.charAt(i);
+                if ((currentCharID >= '0' && currentCharID <= '9')) {
+                    allNums++;
+                }
+            }
+        if (allNums != result.length){
+            document.getElementById("a").innerHTML = "<strong>Error:</strong> Hours Worked can only be a <strong>number.</strong><br>";
+        } else {
+            hoursWorked.innerHTML = result;
+        }
+
+}
+function dis(val){
+	//display this value in the result box
+	document.getElementById("result").value += val;
+}
+     
+function solve(){
+	var valid = 0;
+	var x = document.getElementById("result").value;
+	for (var i = 0; i < x.length; i++) {
+                var currentCharID = x.charAt(i);
+		//Check if the input is valid.
+                if ((currentCharID >= '0' && currentCharID <= '9') || currentCharID == '/' || currentCharID == '+' || currentCharID == '-' || currentCharID == '*') {
+                    valid++;
+                }
+            }
+	//use eval even though its risky
+	if (valid == x.length){
+		var y = eval(x);
+		document.getElementById("result").value = y;
+	} else {
+		document.getElementById("result").value = "ERROR: Press C";
+	}	
+}
+           
+function clr(){
+	document.getElementById("result").value = "";
+}
+
+function typedInTextArea() {
+        var currentContents = bio.value;
+        var words = currentContents.split(" ");
+        var howManyWords = words.length;
+
+        if (words.length === 25) {
+            document.getElementById("bio").disabled = true;
+        } else {
+            document.getElementById("bio").disabled = false;
+        }
+
+        wordCount.innerHTML = 25 - howManyWords;
+    }
+
+function init() {
+        bio = document.getElementById("bio");
+        bio.addEventListener("keydown", typedInTextArea);
+
+        wordCount = document.getElementById("wordCount");
+	hoursWorked = document.getElementById("hoursWorked");
+
+        submit = document.getElementById("submit");
+        submit.addEventListener("click", click);
+
+	saveHours = document.getElementById("save");
+	saveHours.addEventListener("click", save);
+    }
+
+    window.addEventListener("load", init);
+
+</script>
+
+
+<body>
+<div id="outerDiv" class="listener">
+
+    <label>First Name:</label><br>
+    <input type="text" id="fname" name="fname"><br>
+    <label>Last Name:</label><br>
+    <input type="text" id="lname" name="lname"><br>
+    <label>Student ID:</label><br>
+    <input type="text" id="id" name="id"><br>
+    <label>Biography:</label><br>
+    <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br>
+    Number of words: <span id="wordCount">25</span><br><br>
+    <label>Calculator:</label><br>
+    <table border="1">
+      <tr>
+	<td><input type="button" value="1" onclick="dis('1')"/></td>
+	<td><input type="button" value="2" onclick="dis('2')"/></td>
+	<td><input type="button" value="3" onclick="dis('3')"/></td>
+	<td><input type="button" value="/" onclick="dis('/')"/></td>
+      </tr>
+      <tr>
+	<td><input type="button" value="4" onclick="dis('4')"/></td>
+	<td><input type="button" value="5" onclick="dis('5')"/></td>
+	<td><input type="button" value="6" onclick="dis('6')"/></td>
+	<td><input type="button" value="*" onclick="dis('*')"/></td>
+      </tr>
+      <tr>
+	<td><input type="button" value="7" onclick="dis('7')"/></td>
+	<td><input type="button" value="8" onclick="dis('8')"/></td>
+	<td><input type="button" value="9" onclick="dis('9')"/></td>
+	<td><input type="button" value="+" onclick="dis('+')"/></td>
+      </tr>
+      <tr>
+	<td><input type="button" value="C" onclick="clr()"/></td>
+	<td><input type="button" value="0" onclick="dis('0')"/></td>
+	<td><input type="button" value="=" onclick="solve()"/></td>
+	<td><input type="button" value="-" onclick="dis('-')"/></td>
+      </tr>
+    </table>
+    <input type="text" id="result" name="result"><br>
+    <input type="submit" id="save" value="Save"><br><br>
+
+    Hours Worked This Week: <span id="hoursWorked"></span><br><br>
+
+    <input type="submit" id="submit" value="Submit">
+    <p id="a"></p>
+</div>
+</body>
+</html>
