@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Lab 3: Enter the Maps</title>
+
+<style>
+h1 { text-align: center; }
+h2 { text-align: center; }
+h3 { text-align: center; }
+p { font-size: 12px; margin-left: 50px; }
+
+.areaDiv1 {
+  position: absolute;
+  top: 35px;
+  right: 945px;
+  width: 150px;
+  height: 100px; 
+}
+
+.areaDiv2 {
+  position: absolute;
+  top: 260px;
+  right: 810px;
+  width: 150px;
+  height: 100px; 
+}
+
+.areaDiv3 {
+  position: absolute;
+  top: 10px;
+  left: 625px;
+  width: 150px;
+  height: 100px; 
+}
+
+.areaDiv4 {
+  position: absolute;
+  top: 225px;
+  right: 980px;
+  width: 150px;
+  height: 100px; 
+}
+
+.areaDiv5 {
+  position: absolute;
+  top: 125px;
+  right: 770px;
+  width: 150px;
+  height: 100px; 
+}
+
+.imgDiv { position: relative; }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+var counter = 0;
+var $box = $(".areaDiv1");
+var $img = $(".imgDiv");
+const victory = new Audio("victory.mp3");
+
+function wrong(div, jq){
+	$(jq).hide();
+	document.getElementById(div).style.border = "solid #FF0000";
+	$(jq).fadeIn(500);
+	$("#print").hide();
+	$("#print").html("Incorrect. Score: " + counter + "/5").fadeIn(500);
+
+	
+}
+
+function correct(div, jq){
+	$(jq).hide();
+	document.getElementById(div).style.border = "solid #73AD21";
+	$(jq).fadeIn(500);
+	counter += 1;
+	$("#print").hide();
+	$("#print").html("Correct! Score: " + counter + "/5").fadeIn(500);
+}
+
+function q2(){
+	$("#1").hide(1500);
+	$("#print").fadeOut(1500);
+	$("#question").hide(1500);
+	$("#question").html("Question 2: Find the University Library.").fadeIn(500);
+
+	$("#2").show();
+	
+	$(".imgDiv").one("dblclick",function(e){
+	e.stopPropagation();
+    	if ($(e.target).closest(".areaDiv2").length != 0){
+                correct("2", "#2");
+		setTimeout(q3, 5000);
+    	} else {
+       	 	wrong("2", "#2");
+		setTimeout(q3, 5000);
+    	}
+     });
+}
+
+function q3(){
+	$("#2").hide(1500);
+	$("#print").fadeOut(1500);
+	$("#question").hide(1500);
+	$("#question").html("Question 3: Find Parking Lot B5.").fadeIn(500);
+
+	$("#3").show();
+	
+	$(".imgDiv").one("dblclick",function(e){
+	e.stopPropagation();
+    	if ($(e.target).closest(".areaDiv3").length != 0){
+                correct("3", "#3");
+		setTimeout(q4, 5000);
+    	} else {
+       	 	wrong("3", "#3");
+		setTimeout(q4, 5000);
+    	}
+     });
+}
+
+function q4(){
+	$("#3").hide(1500);
+	$("#print").fadeOut(1500);
+	$("#question").hide(1500);
+	$("#question").html("Question 4: Find Bayramian Hall.").fadeIn(500);
+
+	$("#4").show();
+	
+	$(".imgDiv").one("dblclick",function(e){
+	e.stopPropagation();
+    	if ($(e.target).closest(".areaDiv4").length != 0){
+                correct("4", "#4");
+		setTimeout(q5, 5000);
+    	} else {
+       	 	wrong("4", "#4");
+		setTimeout(q5, 5000);
+    	}
+     });
+}
+
+function q5(){
+	$("#4").hide(1500);
+	$("#print").fadeOut(1500);
+	$("#question").hide(1500);
+	$("#question").html("Question 5: Find JD 1600.").fadeIn(500);
+
+	$("#5").show();
+	
+	$(".imgDiv").one("dblclick",function(e){
+	e.stopPropagation();
+    	if ($(e.target).closest(".areaDiv5").length != 0){
+                correct("5", "#5");
+		setTimeout(results, 5000);
+    	} else {
+       	 	wrong("5", "#5");
+		setTimeout(results, 5000);
+    	}
+     });
+}
+
+function results(){
+	victory.play();
+	$("#5").hide(1500);
+	$("#print").fadeOut(1500);
+	$("#question").hide(1500);
+	$("#results").html("Results: You scored a " + counter + "/5!").slideDown(1500);
+	if (counter < 3){
+		$("#print").html("Better luck next time!").fadeIn(1500);
+	} else if (counter <= 4){
+		$("#print").html("Not too bad!").fadeIn(1500);
+	} else {
+		$("#print").html("Perfect! You're just better.").fadeIn(1500);
+	}
+}
+
+$(document).ready(function(){
+    $("#title").hide().fadeIn(1250);
+    $("#question").hide().delay(1000).slideDown(1000);
+    $("#2").hide();
+    $("#3").hide();
+    $("#4").hide();
+    $("#5").hide();
+    $("#results").hide();
+
+    $(".imgDiv").one("dblclick",function(e){
+	e.stopPropagation();
+    	if ($(e.target).closest(".areaDiv1").length != 0){
+                correct("1", "#1");
+		setTimeout(q2, 5000);
+    	} else {
+       	 	wrong("1", "#1");
+		setTimeout(q2, 5000);
+    	}
+     });
+});
+
+
+</script>
+
+
+
+</head>
+
+
+<body>
+<audio controls autoplay>
+  <source src="papaya.mp3" type="audio/mp3">
+  Your browser does not support the audio element. :(
+</audio>
+
+<p><b>Optional: Some fun quiz music.</b></p>
+
+<h1 id="title">CSUN Quiz!</h1>
+
+
+<div class="imgDiv" id="imgDiv">
+<center>
+<img width="640" src="API_KEY">
+<div class="areaDiv1" id="1"></div>
+<div class="areaDiv2" id="2"></div>
+<div class="areaDiv3" id="3"></div>
+<div class="areaDiv4" id="4"></div>
+<div class="areaDiv5" id="5"></div>
+</center>
+</div>
+
+<h2 id= "results"></h2>
+<h2 id= "question">Question 1: Find The College of Business.</h2>
+<h3 id= "print"></h3>
+</body>
+
+</html>
